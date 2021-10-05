@@ -36,6 +36,29 @@ public class PasswordVault implements Vault {
     }
 
     /**
+     * Uses a regex to validate that the names provided for usernames and site
+     * names are strings of at least 6 and at most 12 lower-case characters.
+     * @param name the name provided for the username or site name.
+     * @return true if the name meets the stated criteria, else returns false.
+     */
+    public boolean validateName(String name) {
+        return name.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{6,15}$");
+    }
+
+    /**
+     * Uses a regex to validate that the password provided meets the stated
+     * password vault criteria:
+     *    ~Be between 6 and 15 characters long
+     *    ~Contain at least one letter (can be upper or lowercase) and one digit (0-9)
+     *    ~Contain at least one special character from the set !@#$%^&
+     * @param password
+     * @return true if the password meets the stated criteria, else returns false.
+     */
+    public boolean validatePassword(String password) {
+        return password.matches("^(?=.*[a-z]).{6,12}$");
+    }
+
+    /**
      * Add a new user to the vault (with no site passwords). For example, a
      * username and password is supplied, and the system does no verification
      * or checking except that the username and password must be in correct
@@ -52,7 +75,17 @@ public class PasswordVault implements Vault {
             exceptions.InvalidPasswordException,
             exceptions.DuplicateUserException {
 
+        // Check if the username provided meets the stated criteria.
+        // If it doesn't, throw the invalid username exception.
+        if (!validateName(username)) {
+            throw new InvalidUsernameException();
+        }
 
+        // Check if password provided meets the stated criteria.
+        // If it doesn't, throw the invalid password exception.
+        if (!validatePassword(password) ) {
+            throw new InvalidPasswordException();
+        }
 
         // Check for duplicate users if the number of users in the vault is greater than 0.
         // If there are no users in the vault, there is no need to check for duplicate
