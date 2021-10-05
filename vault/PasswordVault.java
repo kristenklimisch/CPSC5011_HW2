@@ -42,7 +42,7 @@ public class PasswordVault implements Vault {
      * @return true if the name meets the stated criteria, else returns false.
      */
     public boolean validateName(String name) {
-        return name.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{6,15}$");
+        return name.matches("^(?=.*[a-z]).{6,12}$");
     }
 
     /**
@@ -55,7 +55,7 @@ public class PasswordVault implements Vault {
      * @return true if the password meets the stated criteria, else returns false.
      */
     public boolean validatePassword(String password) {
-        return password.matches("^(?=.*[a-z]).{6,12}$");
+        return password.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{6,15}$");
     }
 
     /**
@@ -134,6 +134,9 @@ public class PasswordVault implements Vault {
         // placeholder statements until can write code
         String h = "hello";
         return h;
+
+        // for each failed attempt, increase log in counter, when upon successful login
+        // reset login counter to 0.
 
     }
 

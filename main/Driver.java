@@ -13,7 +13,8 @@ public class Driver {
 	public static void main(String[] args) {
 		PasswordVault vault = new PasswordVault();
 		try {
-			vault.addNewUser("sarahh", "Helloo2!");
+
+			vault.addNewUser("sarahha", "Helloo2!");
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
