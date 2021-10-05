@@ -3,10 +3,11 @@ Kristen Klimisch
 CPSC 5011, Seattle University
 This is free and unencumbered software released into the public domain.
  */
-
 package vault;
 
 import encrypt.CaesarCipher;
+import exceptions.*;
+import java.util.*;
 
 /**
  * To add: Statement about what class does
@@ -14,11 +15,15 @@ import encrypt.CaesarCipher;
 
 public class PasswordVault implements Vault {
 
+    private Map <User, sitePasswords> userVault;
+
     /**
      * Default constructor for PasswordVault object.
+     * Create a new HashMap to which the key-value pairs
+     * of users and their site passwords can be added.
      */
     public PasswordVault() {
-
+      userVault = new HashMap<>();
     }
 
     /**
@@ -29,7 +34,6 @@ public class PasswordVault implements Vault {
     public PasswordVault(CaesarCipher e) {
 
     }
-
 
     /**
      * Add a new user to the vault (with no site passwords). For example, a
@@ -48,6 +52,23 @@ public class PasswordVault implements Vault {
             exceptions.InvalidPasswordException,
             exceptions.DuplicateUserException {
 
+
+
+        // Check for duplicate users if the number of users in the vault is greater than 0.
+        // If there are no users in the vault, there is no need to check for duplicate
+        // users.
+        if (userVault.size() > 0 ) {
+
+            // Check through each user in the vault and see if the username
+            // is already in the vault. If the username is already in the vault.
+            // throw the duplicate user exception.
+            for (User user : userVault.keySet()){
+                if (user.getUserName().equals(username)) {
+                    throw new exceptions.DuplicateUserException();
+                }
+            }
+        }
+        userVault.put(new User(username, password), new sitePasswords());
     }
 
     /**
@@ -139,4 +160,14 @@ public class PasswordVault implements Vault {
         String h = "hello";
         return h;
     }
+
+    // For testing, print the contents of the vault.
+    public void print() {
+        for (User user: userVault.keySet()) {
+            String username = user.getUserName();
+            String password = user.getVaultPassword();
+            System.out.println(username + " " + password);
+        }
+    }
 }
+

@@ -1,4 +1,11 @@
+/*
+Kristen Klimisch
+CPSC 5011, Seattle University
+This is free and unencumbered software released into the public domain.
+ */
+
 package vault;
+import exceptions.*;
 
 /*
   In addition the class that implements the Vault interface must include 
